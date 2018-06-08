@@ -10,8 +10,8 @@ var logger = new (winston.Logger)({
     transports: [
         new (winstonDaily)({
             name: 'info-file',
-            filename: './log/server',
-            datePattern: '_yyyy-MM-dd.log',
+            filename: 'application-%DATE%.log',
+            datePattern: 'yyyy-MM-DD-HH',
             colorize: false,
             maxsize: 50000000,
             maxFiles: 1000,
