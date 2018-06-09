@@ -17,9 +17,9 @@ var cors = require('cors'); //다중 서버접속
 
 var app = express();
 //미들 웨어 등록
-app.set('port', process.env.PORT || 3000); 
-app.use('/public', static(path.join(__dirname,'public')));
-app.use('/uploads', static(path.join(__dirname,'uploads')));
+app.set('port',process.env.PORT || 3000); 
+app.use('/public',static(path.join(__dirname,'public')));
+app.use('/uploads',static(path.join(__dirname,'uploads')));
 
 app.use(bodyParser.urlencoded({extended:false})); // post 방식일때
 app.use(bodyParser.json()); // post 방식일때
@@ -36,16 +36,16 @@ app.use(cors());
 
 var storage = multer.diskStorage({
     
-    destination:function(req, file, callback){
+    destination:function(req,file,callback){
         callback(null,'uploads'); //데스티네이션 폴더 (uploads)
     },
-    filename:function(req, file, callback){
+    filename:function(req,file,callback){
       //  callback(null,file.originalname + Date.now());
         //업로드 할때 파일명 설정
-        //var extension = path.extname(file.originalname); //확장자 빼내기
-       // var basename = path.basename(file.originalnmae, extension);  // ' . ' 뺀 나머지 파일네임
-       // callback(null, basename + Date.now() + extension);
-        callback(null, file.originalname + Date.now())
+       // var extension = path.extname(file.originalname); //확장자 빼내기
+       // var basename = path.basename(file.originalnmae,extension);  // ' . ' 뺀 나머지 파일네임
+        //callback(null, basename + Date.now() + extension);
+         callback(null, file.originalname + Date.now())
         
      }
 });
@@ -54,18 +54,16 @@ var upload = multer({
     storage:storage,
     limits:{
         files:10,
-        fileSize:1024 * 1024 * 1024
+        fileSize:1024*1024*1024
     }
 
 });
 
 var router = express.Router();
-console.log("11111111111");
 
 router.route('/process/photo').post(upload.array('photo',1),function(req,res){
     console.log('/process/photo 라우팅 함수 호출됨.');
-
-    try{
+    
     var files = req.files;
     console.log('====== 업로드된 파일 ======');
     
@@ -96,15 +94,14 @@ router.route('/process/photo').post(upload.array('photo',1),function(req,res){
     res.write("<p>원본파일 : " + originalname + "</p>");
     res.write("<p>저장파일 : " + filename + "</p>");
     res.end();
-    }catch(err){
-        console.dir(err.stack);
-    }
+
 });
 
 
 
-var router = express.Router();
-console.log("2222222222");
+
+//var router = express.Router();
+
 router.route('/process/product').get(function(req,res){
     console.log('/process/product 라우팅 함수 호출됨.');
     
@@ -173,8 +170,6 @@ router.route('/process/logout').get(function(req,res){
 
 
 
-
-
 router.route('/process/setUserCookie').get(function(req,res){
     console.log('/process/setUserCookie 라우팅 함수 호출됨.');
     
@@ -213,16 +208,13 @@ router.route('/process/login').post(function(req,res){
 
 app.use('/', router);
 
-/*app.all('*',function(req,res){
+app.all('*',function(req,res){
     res.status(404).send('<h1>요청하신 페이지는 없습니다.</h1>');
-});*/
+});
 
 
 var server = http.createServer(app).listen(app.get('port'),function(){
     console.log('익스프레스로 웹 서버를 실행함 : ' + app.get('port'));
     
 });
-
-
-
 
