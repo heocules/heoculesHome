@@ -28,74 +28,24 @@ function connectDB(){
     database.on('open', function() {
         console.log('데이터베이스에 연결됨 : ' + databaseUrl);
         
-        //스키마정의
-        UserSchema = mongoose.Schema({
-            id:{type:String , required:true, unique:true, 'default':''},
-            hashed_password:{type:String,required:true,'default':''},
-            salt:{type:String, required:true},
-            name:{type:String, index:'hashed','default':''},
-            age:{type:Number, 'default':-1},
-            created_at:{type:Date, index:{unique:false},
-                       'default':Date.now()},
-            updated_at:{type:Date, index:{unique:false},
-                       'default':Date.now()} 
-                    
-        });
-        console.log('UserSchema 정의함.');
-        
-        UserSchema.virtual('password').set(function(password){
-               // this._password = password
-                this.salt = this.makeSalt();
-                this.hashed_password = this.encryptPassword(password);
-                console.log('virtual password 저장됨 :' + this.hashed_password);
-        });
-        
-        UserSchema.method('encryptPassword', function(plainText, inSalt){
-            if(inSalt){
-                return crypto.createHmac('sha1', inSalt).update(plainText).digest('hex');
-            }else{
-                return crypto.createHmac('sha1', this.salt).update(plainText).digest('hex');
-            }
-        });
-        
-        UserSchema.method('makeSalt', function(){
-            return Math.round((new Date().valueOf() * Math.random())) + '';
-        });
-    
-        UserSchema.method('authenticate', function(plainText, inSalt, hashed_password){
-            if(inSalt) {
-                console.log('authenticate 호출됨.');
-                return this.encryptPassword(plainText, inSalt) === hashed_password;
-            }else{
-                console.log('authenticate 호출됨.');
-                return this.encryptPassword(plainText) === hashed_password;
-            }
-        });
-        
-        UserSchema.static('findById',function(id, callback){
-            return this.find({id:id}, callback);
-        });
-        
-        /*    
-        UserSchema.statics.findById = function(id, callback){
-            return this.find({id:id}, callback);
-        } //자바에서 this는 함수를 호출한 객체
-        */
-        
-        UserSchema.static('findAll',function(callback){
-            return this.find({},callback);
-        });
-        
-        UserModel = mongoose.model('users3', UserSchema);
-        console.log('UserModel 정의함.');
+        createUserSchema(database);
     });
-    
+        
     database.on('disconnected',function() {
         console.log('데이터베이스 연결 끊어짐.');
     });
     
     database.on('error',console.error.bind(console,'mongoose 연결 에러'));
 }
+
+function createUserSchema(database) {
+    
+     database.user_schema = require('./database/user_schema').createSchema(mongoose);
+    
+    UserModel = mongoose.model('users3', .database.UserSchema);
+    console.log('UserModel 정의함.');
+}
+
 
 var app = express();
 //미들웨어 등록
