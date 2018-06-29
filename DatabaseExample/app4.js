@@ -15,6 +15,9 @@ var mongoose = require('mongoose');
 var database;
 var UserSchema;
 var UserModel;
+
+
+
 function connectDB(){
     var databaseUrl = 'mongodb://localhost:27017/local';
     mongoose.Promise = global.Promise;

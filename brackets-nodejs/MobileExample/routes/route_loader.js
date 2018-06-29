@@ -23,10 +23,10 @@ function initRoutes(app, router) {
 	console.log('설정에 정의된 라우팅 모듈의 수 : %d', infoLen);
  
 	for (var i = 0; i < infoLen; i++) {
-		var curItem = config.route_info[i];
+		var curItem = config.route_info[i]; //route_info
 			
 		// 모듈 파일에서 모듈 불러옴
-		var curModule = require(curItem.file);
+		var curModule = require(curItem.file); //route_info.file
 		console.log('%s 파일에서 모듈정보를 읽어옴.', curItem.file);
 		
 		//  라우팅 처리
