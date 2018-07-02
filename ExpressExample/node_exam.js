@@ -51,7 +51,7 @@ router.route('/member/updateInfo').put(function(req, res) {
 /* http://192.168.219.100:3000/member/deleteMember */
 router.route('/member/deleteMember').delete(function(req, res) {
     console.log('delete reousrce from DB');        
-    var paramId = req.body.id;
+    var paramId = req.bod   y.id;
     console.log(paramId);
     
     /* TODO ... write err code */

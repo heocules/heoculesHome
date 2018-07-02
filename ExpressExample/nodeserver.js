@@ -22,13 +22,9 @@ app.use(bodyParser.json()); // post 방식일때
 
 var router = express.Router();
 
-
-var member = [
-            {
-             id:1, 
-             name:'가치놀자1'
-            }
-]
+//======member/member==========router 설정
+//get
+//post
 
 router.route('/members/member')
     .get(function(req,res){
@@ -63,7 +59,14 @@ router.route('/members/member')
     
 })
 
-router.route('/members/member/:id')
+    
+    
+    
+//======member/member/:id ==========router 설정
+//get
+//put
+//delete
+router.route('/members/member/:id') 
    .get(function(req,res){
     console.log('싱글 get 함수 실행');
         //member DB에 :id 정보 가저오기

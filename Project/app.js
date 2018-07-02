@@ -17,12 +17,15 @@ var app = express();
 //미들웨어 등록
 app.set('port',process.env.PORT || 3000);
 /*app.use('/room',static(path.join(__dirname,'room')));*/
-
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
+
+
 var db = mongoose.connection;
-db.on('error', console.error);
+db.on('error', function(){
+     console.log("Connection Failed");
+});
 db.once('open', function(){
     // CONNECTED TO MONGODB SERVER
     console.log("Connected to mongod server");
@@ -71,7 +74,10 @@ function createUserSchema(database) {
     console.log('UserModel 정의함.');
 }*/
 
+
+//스키마를 정의한 room.js 불러오기
 var Room = require('./database/room');
+//router를 정의한 index.js에 app (express) 정보와 Room 스키마 정보 파싱
 var router = require('./routes')(app,Room);
 
 
