@@ -10,7 +10,7 @@ module.exports = function(app,Room){
          //   if(err) return res.status(500).send({error:'database failure'});
             
             res.json({statusCode :'200' , statusMsg : 'success', total :'2' ,
-                      resultList:[{roomId :'_id1' , title : 'dlgmlals', ageMin:'30',ageMax :'40',gender :'m',price:'50000',openUrl:'asdfasdf',intro :'123213'},
+                      resultList:[rooms,
                                   {roomId :'_id2' , title : 'gjrbdnjs', ageMin:'30',ageMax :'40',gender :'m',price:'50000',openUrl:'asdfasdf',intro :'123213'}
                                  ]});
             
