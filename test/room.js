@@ -5,7 +5,7 @@ var roomSchema = new Schema({
   title: String,
   ageMin: Number,
   ageMax: Number,
-  regDate: Number,
+  date: Number,
   gender: Number,
   price: Number,
   openUrl: String,

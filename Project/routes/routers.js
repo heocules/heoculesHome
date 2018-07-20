@@ -8,9 +8,9 @@ module.exports = function(app,Room){
       //  Room.find(function(err,rooms){
             
          //   if(err) return res.status(500).send({error:'database failure'});
-
+            
             res.json({statusCode :'200' , statusMsg : 'success', total :'2' ,
-                      resultList:[rooms,
+                      resultList:[{roomId :'_id1' , title : 'dlgmlals', ageMin:'30',ageMax :'40',gender :'m',price:'50000',openUrl:'asdfasdf',intro :'123213'},
                                   {roomId :'_id2' , title : 'gjrbdnjs', ageMin:'30',ageMax :'40',gender :'m',price:'50000',openUrl:'asdfasdf',intro :'123213'}
                                  ]});
             
@@ -28,11 +28,11 @@ module.exports = function(app,Room){
     
     })*/
     app.post('/room',function(req,res){
-        console.log(req);
+        console.log('POST /room 라우팅 함수에서 호출');
      /*  TODO :  room DB에 룸 생성, 정보 INSERT
     방제,인원,날짜,지역,성별,가격,소개,오픈채팅URL*/
         
-   /*    var room = new Room();
+   /*       var room = new Room();
     
         room.title = req.body.title;
         room.ageMin = req.body.ageMin;
@@ -76,26 +76,25 @@ module.exports = function(app,Room){
     
     app.put('/room/:roomId',function(req,res){
         console.log('PUT /room/:roomId 라우팅 함수에서 호출');
-        Room.findById(req.params.roomId,function(err,room){
-         /*   if(err) return res.status(500).json({error:'database failure'});
-            if(!room) return res.status(404).json({error : 'book not found'});*/
+      /*  Room.findById(req.params.roomId,function(err,room){
+            if(err) return res.status(500).json({error:'database failure'});
+            if(!room) return res.status(404).json({error : 'book not found'});
             
-            if (req.body.title) room.title = req.body.title;
-            if (req.body.agMin) rooms.ageMin = req.body.ageMin;
-            if (req.body.ageMax) rooms.ageMax = req.body.ageMax;
-            if (req.body.regDate) rooms.Date = req.body.Date;
-            if (req.body.gender) rooms.gender = req.body.gender;
-            if (req.body.price) rooms.price = req.body.price;
-            if (req.body.openUrl) rooms.openUrl = req.body.openUrl;
-            if (req.body.explain) rooms.explain = req.body.explain; 
+            if(req.body.title) room.title = req.body.title;
+            if(req.body.ageMin) room.ageMin = req.body.ageMin;
+            if(req.body.ageMax)room.ageMax = req.body.ageMax;
+            //room.date = new Date(req.body.publishes_date);
+            if(req.body.sex) room.sex = req.body.sex;
+            if(req.body.price) room.price = req.body.price;
+            if(req.body.openUrl) room.openUrl = req.body.openUrl;
+            if(req.body.explain) room.explain = req.body.explain;
             
             room.save(function(err){
                 if(err) res.status(500).json({error:'failed to update'});
                 res.json({message : 'room updated'});
             })
         
-        })
-            console.log(room);
+        })*/
            res.json({statusCode :'200' , statusMsg : 'success'});
     
     })
@@ -133,8 +132,6 @@ module.exports = function(app,Room){
     app.get('/member/requester-room/:roomId',function(req,res){
         /* TODO : 내 ROOM에 신청한 멤버 조회*/
         res.json({statusCode :'200' , statusMsg : 'success', total :'2' ,resultList:[{memberId : 'dlgmlals3'},
-                                                                                    {memberId : 'gjrbdnjs'}]});
-    
     })
 
     app.post('/room/requester-room',function(req,res){

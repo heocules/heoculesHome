@@ -5,13 +5,12 @@ var roomSchema = new Schema({
   title: String,
   ageMin: Number,
   ageMax: Number,
-  date: Number,
+  regDate: Number,
   gender: Number,
   price: Number,
   openUrl: String,
   explain: String
 });
-
 
 
 var updateRoom = function(req, res) {
@@ -62,7 +61,7 @@ var deleteRoom = function(req, res) {
       res.json({
         statusCode: '200',
         statusMsg: 'success'
-      });
+  });
       res.status(204).end();
     })
 }
@@ -103,9 +102,10 @@ var getRoomList = function(req, res) {
       statusCode: '200',
       statusMsg: 'success',
       total: '2',
-      resultList: json(rooms)
+      resultList: {json(rooms)}
     });
   })
 }
 
 module.exports = mongoose.model('room', roomSchema);
+                                                                                   

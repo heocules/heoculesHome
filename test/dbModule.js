@@ -1,71 +1,110 @@
 var Room = require('./room');
-
 var rodule = {};
+var firstRoom = new Object();
 
-rodule.insert = function(){
-    var room = new Room();
-    
-        room.title = 'hi';
-        room.ageMin = 123213;
-        room.ageMax = 123123;
-        //room.regDate = new Date(req.body.publishes_date);
-        room.gender = 12;
-        room.price = 12;
-        room.openUrl = 'ad';
-        room.intro = 'asdf';
-        
-        room.save(function(err){
-            if(err){
-                
-                console.error(err);
-                console.log(json({result:0}));
-                return;
-            }
-            
-            console.log('result:1');
-        
-        console.log('result:1');
-        })
-            
-            
+rodule.insertRoom = function(req, res) {
+ var room = new Room();
+
+  room.title = req.body.title;
+  room.ageMin = req.body.ageMin;
+  room.ageMax = req.body.ageMax;
+  room.date = req.body.date;
+  room.gender = req.body.gender;
+  room.price = req.body.price;
+  room.openUrl = req.body.openUrl;
+  room.explain = req.body.explain;
+
+  room.save(function(err) {
+            //console.log('succees');
+/*    if (err) {
+        return res.status(500).send({
+        error: 'database failure'
+      });
+    }
+      res.json({
+      statusCode: '200',
+      statusMsg: 'success'
+    });*/
+  })
 }
 
-rodule.delete = function(res,req){
-     Room.remove({title : 'hi'},function(err,output){
-                
-        })
+rodule.updateRoom = function(req, res) {
+  
+ 
+  Room.findById('5b50d58eac837b394ca58cf7', function (err, room) {
+      
+    console.log(room);
+      
+    if (req.body.title) room.title = req.body.title;
+    if (req.body.agMin) room.ageMin = req.body.ageMin;
+    if (req.body.ageMax) room.ageMax = req.body.ageMax;
+    if (req.body.regDate) room.Date = req.body.Date;
+    if (req.body.gender) room.gender = req.body.gender;
+    if (req.body.price) room.price = req.body.price;
+    if (req.body.openUrl) room.openUrl = req.body.openUrl;
+    if (req.body.explain) room.explain = req.body.explain;
+
+     room.save(function(err) {
+      if (!err){
+        console.log('update success1');
+      }else{
+        console.log('database failure');
+      }
+  /*      res.json({
+        statusCode: '200',
+        statusMsg: 'success'
+      });
+      */
+    });
+
+})
 }
 
-rodule.find = function(res){
+rodule.deleteRoom = function(req, res) {
+  Room.remove({
+      title: req.params.roomId
+    },
+    function(err, output) {
+      console.log('collection drop');
+     /* if (err) return res.status(500).json({
+        error: "database failure"
+      });
 
-  Room.find(function(err,result){
-            
-         //   if(err) return res.status(500).send({error:'database failure'});
-   console.log(result);
+      if (!output.result.n) return res.status(404).json({
+        error: 'room not found'
+      });
+
+      res.json({
+        statusCode: '200',
+        statusMsg: 'success'
+  });
+      res.status(204).end();*/
     })
 }
 
-rodule.update = function(){
-    //     Room.findById({},function(err,room){
-    Room.findOneAndUpdate({title:'hi'},'modified',function(err,room){
+rodule.getRoomList = function(req, res) {
 
-          
-            room.title = 'modified';
-            room.ageMin = 111111111;
-            room.ageMax = 111111111;
-            //room.date = new Date(req.body.publishes_date);
-            room.sex = 1111111111;
-            room.price = 111111111;
-            room.openUrl = 'modified';
-            room.explain = 'modified';
-            
-            room.save(function(err){
-                if(err) console.log('update error');
-            })
-    
-
-    })
+  Room.find(function(err, rooms) {
+/*    if (err) {
+      return res.status(500).send({
+        error: 'database failure'
+      });
+    }
+    res.json({
+      statusCode: '200',
+      statusMsg: 'success',
+      total: '2',
+      resultList: {}
+    });*/
+      console.log(rooms); 
+     firstRoom = rooms[0];
+     console.log('**********2222222222222**********+'+ firstRoom +'**********************');
+      if(rooms) return firstRoom;
+     
+      
+  })
+    console.log('*********3333333333333***********+'+ firstRoom +'**********************');
+    return firstRoom;
 }
 
 module.exports = rodule;
-
